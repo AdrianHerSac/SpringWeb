@@ -12,38 +12,36 @@ import java.util.List;
 public class ProductoServicio {
 
     @Autowired
-    private ProductoRepository repositorio;
+    private ProductoRepository productoRepository;
 
-    // Métodos existentes...
     public List<Producto> findAll() {
-        return repositorio.findAll();
-    }
-
-    public Producto findById(Long id) {
-        return repositorio.findById(id).orElse(null);
-    }
-
-    public Producto guardar(Producto producto) {
-        return repositorio.save(producto);
+        return productoRepository.findAll();
     }
 
     public List<Producto> buscar(String busqueda) {
-        // Llama al método "mágico" que creamos en el repositorio
-        return repositorio.findByNombreContainingIgnoreCase(busqueda);
+        return productoRepository.findByNombreContainingIgnoreCase(busqueda);
+    }
+
+    public Producto findById(Long id) {
+        return productoRepository.findById(id).orElse(null);
+    }
+
+    public void guardar(Producto producto) {
+        productoRepository.save(producto);
+    }
+
+    public void deleteById(Long id) {
+        productoRepository.deleteById(id);
     }
 
     public List<Producto> findByCategoria(String categoria) {
-        return repositorio.findByCategoria(categoria);
+        // Implementación simple o retorno vacío si no usas categorías aún
+        return List.of();
     }
-
-    // --- CORRECCIÓN DEL INIT ---
 
     @PostConstruct
     public void init() {
-        // Error anterior: "productos.add(...)" -> No existe la lista 'productos'.
-        // Solución: Usar repositorio.save(...)
-
-        repositorio.save(
+        productoRepository.save(
                 Producto.builder()
                         .nombre("Dragón Rojo")
                         .precio(9.99)
@@ -52,11 +50,20 @@ public class ProductoServicio {
                         .build()
         );
 
-        repositorio.save(
+        productoRepository.save(
                 Producto.builder()
                         .nombre("Dragón Azul")
                         .precio(19.99)
                         .categoria("Agua")
+                        .descripcion("Dragón de agua con escamas brillantes")
+                        .build()
+        );
+
+        productoRepository.save(
+                Producto.builder()
+                        .nombre("Dragón Negro")
+                        .precio(99.99)
+                        .categoria("")
                         .descripcion("Dragón de agua con escamas brillantes")
                         .build()
         );

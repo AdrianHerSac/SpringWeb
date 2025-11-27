@@ -17,5 +17,5 @@ public class Producto {
     private String nombre;
     private Double precio;
     private String descripcion;
-    private String categoria; // Agregado para que funcione findByCategoria
+    private String categoria;
 }

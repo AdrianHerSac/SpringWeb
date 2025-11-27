@@ -3,36 +3,55 @@
 <head>
     <meta charset="UTF-8">
     <title>Productos</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/light.min.css">
 </head>
 <body>
 
 <h1>Lista de productos</h1>
 
+<div style="margin-bottom: 20px;">
+    <a href="/productos/crear"><button>+ Nuevo Producto</button></a>
+</div>
+
 <table border="1">
+    <thead>
     <tr>
         <th>Nombre</th>
         <th>Precio</th>
-        <th>Descripción</th>
-        <th>V</th>
-        <th>M</th>
-        <th>B</th>
+        <th>Ver</th>
+        <th>Editar</th>
+        <th>Borrar</th>
     </tr>
+    </thead>
+    <tbody>
     {% for producto in productos %}
     <tr>
         <td>{{ producto.nombre }}</td>
-        <td>{{ producto.precio }}</td>
-        <td>{{ producto.descripcion }}</td>
+        <td>{{ producto.precio }} €</td>
         <td>
-            <button>V</button>
+            <a href="/productos/{{ producto.id }}" style="text-decoration: none;">
+                <button type="button">👁️</button>
+            </a>
         </td>
         <td>
-            <button>M</button>
+            <a href="/productos/editar/{{ producto.id }}" style="text-decoration: none;">
+                <button type="button" style="background-color: #ffc107; color: black;">✏️</button>
+            </a>
         </td>
         <td>
-            <button>B</button>
+            <a href="/productos/borrar/{{ producto.id }}"
+               onclick="return confirm('¿Estás seguro de borrar {{ producto.nombre }}?');"
+               style="text-decoration: none;">
+                <button type="button" style="background-color: #dc3545; color: white;">🗑️</button>
+            </a>
         </td>
     </tr>
+    {% else %}
+    <tr>
+        <td colspan="3">No hay productos registrados.</td>
+    </tr>
     {% endfor %}
+    </tbody>
 </table>
 
 </body>

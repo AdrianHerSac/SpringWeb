@@ -19,53 +19,60 @@ public class ProductoController {
     private ProductoServicio productoServicio;
 
     @GetMapping
-    public String listar(
-            @RequestParam(required = false) String busqueda,
-            Model model
-    ) {
+    public String home(@RequestParam(required = false) String busqueda, Model model) {
         List<Producto> productos;
-
         if (busqueda != null && !busqueda.isEmpty()) {
             productos = productoServicio.buscar(busqueda);
             model.addAttribute("busqueda", busqueda);
         } else {
             productos = productoServicio.findAll();
         }
-
         model.addAttribute("productos", productos);
-        model.addAttribute("total", productos.size());
         return "index";
     }
 
-    @GetMapping("/{id}")
-    public String detalle(@PathVariable Long id, Model model) {
-        Producto producto = productoServicio.findById(id);
-
-        if (producto == null) {
-            return "redirect:/productos?error=notfound";
+    @GetMapping("/lista")
+    public String listar(@RequestParam(required = false) String busqueda, Model model) {
+        List<Producto> productos;
+        if (busqueda != null && !busqueda.isEmpty()) {
+            productos = productoServicio.buscar(busqueda);
+            model.addAttribute("busqueda", busqueda);
+        } else {
+            productos = productoServicio.findAll();
         }
-
-        model.addAttribute("producto", producto);
-        model.addAttribute("relacionados",
-                productoServicio.findByCategoria(producto.getCategoria()));
-        return "productos/detalle";
+        model.addAttribute("productos", productos);
+        return "productos/lista";
     }
 
     @GetMapping("/crear")
     public String formularioCrear(Model model) {
         model.addAttribute("producto", new Producto());
-        // Guardaremos la vista en la carpeta 'productos' para mantener el orden
-        return "productos/form";
+        model.addAttribute("titulo", "Crear Nuevo Producto");
+        return "productos/form"; // Reutilizaremos la misma vista 'form'
     }
 
-    // 2. Recibir los datos y guardar (POST /productos/guardar)
+    @GetMapping("/editar/{id}")
+    public String formularioEditar(@PathVariable Long id, Model model) {
+        Producto producto = productoServicio.findById(id);
+        if (producto == null) {
+            return "redirect:/productos?error=notfound";
+        }
+        model.addAttribute("producto", producto);
+        model.addAttribute("titulo", "Editar Producto");
+        return "productos/form"; // Reutilizamos el form
+    }
+
     @PostMapping("/guardar")
     public String guardar(@ModelAttribute Producto producto) {
-        log.info("Intentando guardar el producto: {}", producto); // Usamos tu @Slf4j
-
-        // Asegúrate de que este método exista en tu servicio
+        log.info("Guardando producto: {}", producto);
         productoServicio.guardar(producto);
+        return "redirect:/productos";
+    }
 
-        return "redirect:/productos"; // Redirige al listado tras guardar
+    @GetMapping("/borrar/{id}")
+    public String borrar(@PathVariable Long id) {
+        log.info("Borrando producto id: {}", id);
+        productoServicio.deleteById(id);
+        return "redirect:/productos";
     }
 }
