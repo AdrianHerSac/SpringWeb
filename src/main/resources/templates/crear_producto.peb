@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Nuevo Producto</title>
+</head>
+<body>
+    <h1>Crear nuevo producto</h1>
+
+    <form action="/productos/guardar" method="post">
+
+        <div>
+            <label for="nombre">Nombre:</label>
+            <input type="text" id="nombre" name="nombre" required>
+        </div>
+
+        <div>
+            <label for="precio">Precio:</label>
+            <input type="number" id="precio" name="precio" step="0.01" required>
+        </div>
+
+        <button type="submit">Guardar Producto</button>
+    </form>
+
+    <br>
+    <a href="/">Volver al inicio</a>
+</body>
+</html>

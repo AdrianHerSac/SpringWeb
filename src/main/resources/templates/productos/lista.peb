@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Lista de Productos</title>
+</head>
+<body>
+    <h1>Mis Productos (Total: {{ total }})</h1>
+
+    <a href="/productos/crear">Crear Nuevo Producto</a>
+
+    <form action="/productos" method="get">
+        <input type="text" name="busqueda" value="{{ busqueda }}" placeholder="Buscar...">
+        <button type="submit">Buscar</button>
+    </form>
+
+    <ul>
+        {% for producto in productos %}
+            <li>
+                <strong>{{ producto.nombre }}</strong> - ${{ producto.precio }}
+                <a href="/productos/{{ producto.id }}">Ver detalle</a>
+            </li>
+        {% else %}
+            <li>No hay productos encontrados.</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
