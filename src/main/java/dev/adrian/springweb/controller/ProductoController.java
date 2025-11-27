@@ -22,9 +22,11 @@ public class ProductoController {
     public String home(@RequestParam(required = false) String busqueda, Model model) {
         List<Producto> productos;
         if (busqueda != null && !busqueda.isEmpty()) {
+            log.info("Buscando: " + busqueda);
             productos = productoServicio.buscar(busqueda);
             model.addAttribute("busqueda", busqueda);
         } else {
+            log.info("Buscando");
             productos = productoServicio.findAll();
         }
         model.addAttribute("productos", productos);
@@ -35,9 +37,11 @@ public class ProductoController {
     public String listar(@RequestParam(required = false) String busqueda, Model model) {
         List<Producto> productos;
         if (busqueda != null && !busqueda.isEmpty()) {
+            log.info("Buscando: " + busqueda);
             productos = productoServicio.buscar(busqueda);
             model.addAttribute("busqueda", busqueda);
         } else {
+            log.info("Buscando");
             productos = productoServicio.findAll();
         }
         model.addAttribute("productos", productos);
@@ -48,13 +52,14 @@ public class ProductoController {
     public String formularioCrear(Model model) {
         model.addAttribute("producto", new Producto());
         model.addAttribute("titulo", "Crear Nuevo Producto");
-        return "productos/form"; // Reutilizaremos la misma vista 'form'
+        return "productos/form";
     }
 
     @GetMapping("/editar/{id}")
     public String formularioEditar(@PathVariable Long id, Model model) {
         Producto producto = productoServicio.findById(id);
         if (producto == null) {
+            log.info("No existe el producto con el id: {}", id);
             return "redirect:/productos?error=notfound";
         }
         model.addAttribute("producto", producto);
@@ -66,7 +71,7 @@ public class ProductoController {
     public String guardar(@ModelAttribute Producto producto) {
         log.info("Guardando producto: {}", producto);
         productoServicio.guardar(producto);
-        return "redirect:/productos";
+        return "redirect:/productos/lista";
     }
 
     @GetMapping("/borrar/{id}")

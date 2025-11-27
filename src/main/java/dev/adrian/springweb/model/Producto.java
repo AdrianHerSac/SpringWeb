@@ -18,4 +18,7 @@ public class Producto {
     private Double precio;
     private String descripcion;
     private String categoria;
+
+    // Cuidado tamaño de la imagen
+    private String imagen;
 }

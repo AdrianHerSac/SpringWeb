@@ -35,7 +35,6 @@ public class ProductoServicio {
     }
 
     public List<Producto> findByCategoria(String categoria) {
-        // Implementación simple o retorno vacío si no usas categorías aún
         return List.of();
     }
 
@@ -43,10 +42,11 @@ public class ProductoServicio {
     public void init() {
         productoRepository.save(
                 Producto.builder()
-                        .nombre("Dragón Rojo")
+                        .nombre("Pesadilla Monstruosa")
                         .precio(9.99)
-                        .categoria("Fuego") // Asegúrate de tener este campo en tu modelo
+                        .categoria("Fuego")
                         .descripcion("Criatura mitológica coleccionable")
+                        .imagen("/multimedia/Pesadilla-monstruosa.png")
                         .build()
         );
 
