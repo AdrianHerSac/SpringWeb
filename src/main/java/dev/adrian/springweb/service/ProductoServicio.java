@@ -2,10 +2,13 @@ package dev.adrian.springweb.service;
 
 import dev.adrian.springweb.model.Categoria;
 import dev.adrian.springweb.model.Producto;
+import dev.adrian.springweb.model.Usuario;
 import dev.adrian.springweb.repository.CategoriaRepository;
 import dev.adrian.springweb.repository.ProductoRepository;
+import dev.adrian.springweb.repository.UsuarioRepository;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,6 +21,12 @@ public class ProductoServicio {
 
     @Autowired
     private CategoriaRepository categoriaRepository;
+
+    @Autowired
+    private UsuarioRepository usuarioRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     public List<Producto> findAll() {
         return productoRepository.findAll();
@@ -45,7 +54,7 @@ public class ProductoServicio {
 
     @PostConstruct
     public void init() {
-        // 1. FUEGO
+
         Categoria catFuego = Categoria.builder()
                 .nombre("Fuego")
                 .descripcion("Dragones de clase fogonero")
@@ -62,25 +71,24 @@ public class ProductoServicio {
                         .build()
         );
 
-        // 2. AGUA (Corregido: Nombre y descripción cambiados)
         Categoria catAgua = Categoria.builder()
-                .nombre("Agua") // <--- ANTES PONÍA "Fuego"
+                .nombre("Agua")
                 .descripcion("Dragones marinos y de las profundidades")
                 .build();
         categoriaRepository.save(catAgua);
 
         productoRepository.save(
                 Producto.builder()
-                        .nombre("Dragón Azul")
+                        .nombre("Nadder Mortifero")
                         .precio(19.99)
                         .categoria(catAgua)
-                        .historia("Dragón de agua con escamas brillantes")
+                        .historia("Dragón con escamas brillantes")
+                        .imagen("/multimedia/Nadder-mortifero.png")
                         .build()
         );
 
-        // 3. MISTERIO (Corregido: Nombre y descripción cambiados)
         Categoria catDesconocida = Categoria.builder()
-                .nombre("Misterio") // <--- ANTES PONÍA "Fuego"
+                .nombre("Misterio")
                 .descripcion("Clase desconocida o híbrida")
                 .build();
         categoriaRepository.save(catDesconocida);
@@ -93,5 +101,14 @@ public class ProductoServicio {
                         .historia("La cría impía del rayo y la muerte misma.")
                         .build()
         );
+
+        if (usuarioRepository.findByUsername("Hipo").isEmpty()) {
+            Usuario hipo = new Usuario();
+            hipo.setUsername("Hipo");
+            hipo.setPassword(passwordEncoder.encode("1234")); // Contraseña: 1234
+            hipo.setRol("ADMIN");
+            usuarioRepository.save(hipo);
+        }
+
     }
 }
