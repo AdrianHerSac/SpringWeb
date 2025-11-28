@@ -1,6 +1,7 @@
 package dev.adrian.springweb.controller;
 
 import dev.adrian.springweb.model.Producto;
+import dev.adrian.springweb.service.CategoriaServicio;
 import dev.adrian.springweb.service.ProductoServicio;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,9 @@ public class ProductoController {
 
     @Autowired
     private ProductoServicio productoServicio;
+
+    @Autowired
+    private CategoriaServicio categoriaServicio;
 
     @GetMapping
     public String home(@RequestParam(required = false) String busqueda, Model model) {
@@ -50,21 +54,25 @@ public class ProductoController {
 
     @GetMapping("/crear")
     public String formularioCrear(Model model) {
+        log.info("Creando producto");
         model.addAttribute("producto", new Producto());
-        model.addAttribute("titulo", "Crear Nuevo Producto");
+        model.addAttribute("categorias", categoriaServicio.findAll());
+        model.addAttribute("titulo", "Incubar Nueva Bestia");
         return "productos/form";
     }
 
     @GetMapping("/editar/{id}")
     public String formularioEditar(@PathVariable Long id, Model model) {
+        log.info("Buscando: " + id);
         Producto producto = productoServicio.findById(id);
         if (producto == null) {
             log.info("No existe el producto con el id: {}", id);
             return "redirect:/productos?error=notfound";
         }
         model.addAttribute("producto", producto);
+        model.addAttribute("categorias", categoriaServicio.findAll());
         model.addAttribute("titulo", "Editar Producto");
-        return "productos/form"; // Reutilizamos el form
+        return "productos/form";
     }
 
     @PostMapping("/guardar")
