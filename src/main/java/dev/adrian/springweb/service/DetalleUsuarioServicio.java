@@ -20,7 +20,6 @@ public class DetalleUsuarioServicio implements UserDetailsService {
         Usuario usuario = usuarioRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("Vikingo no encontrado"));
 
-        // Convertimos nuestro Usuario a un usuario de Spring Security
         return User.builder()
                 .username(usuario.getUsername())
                 .password(usuario.getPassword())
