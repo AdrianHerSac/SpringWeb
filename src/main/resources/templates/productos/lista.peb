@@ -46,7 +46,7 @@
             text-shadow: 1px 1px 0px rgba(255, 255, 255, 0.5);
             border-bottom: 3px double #5d4037;
             padding-bottom: 20px;
-            margin-bottom: 40px;
+            margin-bottom: 30px;
             text-transform: uppercase;
         }
 
@@ -58,6 +58,69 @@
             font-family: 'MedievalSharp', cursive;
             text-transform: none;
         }
+
+        /* --- ESTILOS DEL BUSCADOR (MODIFICADO) --- */
+        .search-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 40px;
+            position: relative;
+        }
+
+        .search-form {
+            position: relative;
+            width: 100%;
+            max-width: 500px;
+            display: flex;
+            align-items: center;
+            border-bottom: 2px solid #5d4037; /* Línea inferior como renglón */
+            padding-bottom: 5px;
+            transition: border-color 0.3s;
+        }
+
+        .search-form:focus-within {
+            border-bottom-color: #d4af37; /* Dorado al escribir */
+        }
+
+        .search-input {
+            width: 100%;
+            border: none;
+            background: transparent;
+            font-family: 'MedievalSharp', cursive;
+            font-size: 1.2rem;
+            color: #2c1e16;
+            outline: none;
+            padding: 5px;
+        }
+
+        .search-input::placeholder {
+            color: #8d6e63;
+            opacity: 0.7;
+            font-style: italic;
+        }
+
+        .search-btn {
+            background-color: #5d4037;
+            color: #f4e4bc;
+            border: none;
+            padding: 8px 20px;
+            font-family: 'Cinzel', serif;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-radius: 5px 20px 5px 20px; /* Forma de hoja/sello */
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-left: 10px;
+        }
+
+        .search-btn:hover {
+            background-color: #3e2723;
+            color: #d4af37; /* Letras doradas al pasar */
+            transform: scale(1.05);
+            box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+        }
+        /* ----------------------------------------- */
 
         ul {
             list-style-type: none;
@@ -115,7 +178,6 @@
             border: 2px solid #3e2723;
             padding: 8px 15px;
             border-radius: 30px 5px 30px 5px;
-            /* Forma irregular */
             transition: all 0.3s;
             font-size: 0.9rem;
             white-space: nowrap;
@@ -135,36 +197,12 @@
             padding: 40px;
         }
 
-        .buscador {
-            display: flex;
-            align-items: center;
-            max-width: 400px;
-            border: 1px solid #ccc;
-            border-radius: 25px;
-            padding: 5px 10px;
-            background-color: #fff;
-        }
-
-        .buscador input {
-            border: none;
-            outline: none;
-            flex-grow: 1;
-            padding: 10px;
-            font-size: 16px;
-        }
-
-        .buscador button {
-            background-color: #007BFF;
-            color: white;
-            border: none;
-            padding: 8px 15px;
-            border-radius: 20px;
-            cursor: pointer;
-            font-weight: bold;
-        }
-
-        .buscador button:hover {
-            background-color: #0056b3;
+        .clear-link {
+            text-decoration: none;
+            color: #b71c1c;
+            font-size: 0.9rem;
+            margin-left: 10px;
+            display: {{ busqueda is empty ? 'none' : 'block' }}; /* Solo mostrar si hay búsqueda */
         }
     </style>
 </head>
@@ -177,12 +215,21 @@
             <span class="total-count">~ Avistamientos registrados: {{ total }} ~</span>
         </h1>
 
-        <form action="/buscar" method="GET" class="buscador">
-            <input type="search" name="query" placeholder="Buscar en el sitio..."
-                style="width: 100%; padding: 10px; font-size: 1rem; border: 2px solid #5d4037; border-radius: 5px;"
-                required>
-            <button type="submit">Buscar</button>
-        </form>
+        <div class="search-container">
+            <form action="/productos" method="GET" class="search-form">
+                <input type="text"
+                       name="busqueda"
+                       value="{{ busqueda }}"
+                       class="search-input"
+                       placeholder="Rastrear bestia por nombre..."
+                >
+                <button type="submit" class="search-btn">Rastrear</button>
+
+                {% if busqueda != null %}
+                    <a href="/productos" class="clear-link" title="Borrar filtros">✖</a>
+                {% endif %}
+            </form>
+        </div>
 
         <ul>
             {% for producto in productos %}
@@ -201,7 +248,7 @@
             </li>
             {% else %}
             <li class="empty-message">
-                "Las páginas están en blanco... Aún no se han avistado dragones en estas tierras."
+                "No se han encontrado registros que coincidan con '{{ busqueda }}'..."
             </li>
             {% endfor %}
         </ul>

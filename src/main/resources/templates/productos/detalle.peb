@@ -153,7 +153,13 @@
                     <a href="/productos/editar/{{ producto.id }}" class="btn btn-warning btn-medieval">
                         <i class="bi bi-pencil-fill"></i> Editar
                     </a>
-
+                </div>
+                <div>
+                    <a href="/productos/comprar/{{ producto.id }}" class="btn btn-primary btn-medieval">
+                        <i class="bi bi-basket-fill"></i> Comprar
+                    </a>
+                </div>
+                <div>
                     <a href="/productos/borrar/{{ producto.id }}"
                        class="btn btn-danger btn-medieval ms-2"
                        onclick="return confirm('¿Seguro que quieres borrar esta página del libro?');">

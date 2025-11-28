@@ -68,7 +68,8 @@ public class ProductoController {
 
         if (producto == null) {
             log.info("Producto no encontrado");
-            return "redirect:/productos?error=notfound";
+            model.addAttribute("error", "Producto no encontrado");
+            return "error/404";
         }
 
         model.addAttribute("producto", producto);
