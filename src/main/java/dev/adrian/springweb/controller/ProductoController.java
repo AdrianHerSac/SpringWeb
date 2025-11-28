@@ -61,9 +61,23 @@ public class ProductoController {
         return "productos/form";
     }
 
+    @GetMapping("/{id}")
+    public String detalle(@PathVariable Long id, Model model) {
+        log.info("Buscando producto por el id: " + id);
+        Producto producto = productoServicio.findById(id);
+
+        if (producto == null) {
+            log.info("Producto no encontrado");
+            return "redirect:/productos?error=notfound";
+        }
+
+        model.addAttribute("producto", producto);
+        return "productos/detalle";
+    }
+
     @GetMapping("/editar/{id}")
     public String formularioEditar(@PathVariable Long id, Model model) {
-        log.info("Buscando: " + id);
+        log.info("Buscando producto por el id: " + id + ", para editar");
         Producto producto = productoServicio.findById(id);
         if (producto == null) {
             log.info("No existe el producto con el id: {}", id);
@@ -84,7 +98,7 @@ public class ProductoController {
 
     @GetMapping("/borrar/{id}")
     public String borrar(@PathVariable Long id) {
-        log.info("Borrando producto id: {}", id);
+        log.info("Borrando producto con el id: {}", id);
         productoServicio.deleteById(id);
         return "redirect:/productos";
     }
