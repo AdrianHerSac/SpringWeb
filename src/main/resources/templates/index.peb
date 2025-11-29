@@ -11,23 +11,23 @@
 
     <style>
         body {
-            background-color: #1a1a1a; /* Carbón oscuro */
+            background-color: #1a1a1a;
             color: #e0e0e0;
             font-family: 'Lato', sans-serif;
         }
 
-        h1, h2, h3, .navbar-brand {
-            font-family: 'Cinzel', serif; /* Fuente vikinga */
+        h1, h2, h3, .navbar-brand, .btn {
+            font-family: 'Cinzel', serif;
             text-transform: uppercase;
             letter-spacing: 2px;
         }
 
         .navbar {
-            background-color: #2c0b0b !important; /* Rojo oscuro sangre seca */
-            border-bottom: 3px solid #d4af37; /* Borde dorado */
+            background-color: #2c0b0b !important;
+            border-bottom: 3px solid #d4af37;
         }
         .navbar-brand {
-            color: #d4af37 !important; /* Texto dorado */
+            color: #d4af37 !important;
             font-weight: bold;
         }
 
@@ -41,35 +41,24 @@
         }
 
         .display-1 {
-            color: #ff4500; /* Naranja fuego */
+            color: #ff4500;
             text-shadow: 0 0 15px rgba(255, 69, 0, 0.6);
         }
 
-        .btn-primary {
-            background-color: #d4af37; /* Dorado */
+        .btn-primary, .btn-gold {
+            background-color: #d4af37;
             border-color: #b8962e;
-            color: #2c0b0b; /* Texto oscuro */
-            font-family: 'Cinzel', serif;
+            color: #2c0b0b;
             font-weight: bold;
         }
-        .btn-primary:hover {
+        .btn-primary:hover, .btn-gold:hover {
             background-color: #f3c948;
             color: #000;
         }
 
-        .btn-outline-secondary {
-            color: #d4af37;
-            border-color: #d4af37;
-            font-family: 'Cinzel', serif;
-        }
-        .btn-outline-secondary:hover {
-            background-color: #d4af37;
-            color: #2c0b0b;
-        }
-
         .feature-icon {
             font-size: 3rem;
-            color: #ff4500; /* Naranja fuego */
+            color: #ff4500;
             margin-bottom: 1rem;
             background: #2c0b0b;
             width: 80px;
@@ -99,10 +88,33 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ms-auto">
+            <ul class="navbar-nav ms-auto align-items-center">
                 <li class="nav-item">
-                    <a class="nav-link active" href="/">Aldea (Inicio)</a>
+                    <a class="nav-link active" href="/">Aldea</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/productos">Bestiario</a>
+                </li>
+
+                {% if request.userPrincipal == null %}
+                    <li class="nav-item ms-3">
+                        <a class="btn btn-outline-warning btn-sm" href="/login">
+                            <i class="bi bi-key-fill"></i> Iniciar Sesión
+                        </a>
+                    </li>
+                {% else %}
+                    <li class="nav-item ms-3 text-warning">
+                        <i class="bi bi-person-circle"></i> Jefe {{ request.userPrincipal.name }}
+                    </li>
+                    <li class="nav-item ms-2">
+                        <form action="/logout" method="post" style="display:inline;">
+                            <input type="hidden" name="{{ _csrf.parameterName }}" value="{{ _csrf.token }}"/>
+                            <button type="submit" class="btn btn-sm btn-danger">
+                                <i class="bi bi-door-open"></i> Salir
+                            </button>
+                        </form>
+                    </li>
+                {% endif %}
             </ul>
         </div>
     </div>
@@ -110,58 +122,49 @@
 
 <div class="hero-section text-center">
     <div class="container">
-        <i class="bi bi-dragon display-1 mb-3"></i> <h1 class="display-4 fw-bold mt-3 text-white">Domestica la Llama</h1>
+        <i class="bi bi-dragon display-1 mb-3"></i>
+        <h1 class="display-4 fw-bold mt-3 text-white">Domestica la Llama</h1>
         <div class="col-lg-8 mx-auto">
             <p class="lead mb-4 text-light">
                 Bienvenido al mayor establo de los Siete Reinos. Gestiona tus dragones, controla el inventario de huevos y prepara a tus bestias para la batalla.
             </p>
             <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
-                <a href="/productos/lista" class="btn btn-primary btn-lg px-4 gap-3">
-                    <i class="bi bi-book"></i> Ver Bestiario
+                <a href="/productos" class="btn btn-primary btn-lg px-4 gap-3">
+                    <i class="bi bi-book-half"></i> Ver Bestiario
                 </a>
-                <a href="/productos/crear" class="btn btn-outline-secondary btn-lg px-4">
-                    <i class="bi bi-egg-fill"></i> Incubar Nuevo
-                </a>
+
+                {% if request.userPrincipal != null %}
+                    <a href="/productos/crear" class="btn btn-outline-secondary btn-lg px-4 text-warning border-warning">
+                        <i class="bi bi-egg-fill"></i> Incubar
+                    </a>
+                {% endif %}
             </div>
         </div>
     </div>
 </div>
 
 <div class="container px-4 py-5" id="features">
-    <h2 class="text-center pb-2 border-bottom border-secondary mb-5">Nuestros Servicios</h2>
+    <h2 class="text-center pb-2 border-bottom border-secondary mb-5 text-white">Nuestros Servicios</h2>
     <div class="row g-4 py-3 row-cols-1 row-cols-lg-3">
-
         <div class="col text-center">
-            <div class="feature-icon shadow">
-                <i class="bi bi-fire"></i>
-            </div>
-            <h3 class="mt-3">Poder de Fuego</h3>
-            <p>Clasificamos a las bestias por su potencia de llama y capacidad destructiva.</p>
+            <div class="feature-icon shadow"><i class="bi bi-fire"></i></div>
+            <h3 class="mt-3 text-white">Poder de Fuego</h3>
+            <p>Clasificamos a las bestias por su potencia de llama.</p>
         </div>
-
         <div class="col text-center">
-            <div class="feature-icon shadow">
-                <i class="bi bi-shield-shaded"></i>
-            </div>
-            <h3 class="mt-3">Escamas Duras</h3>
-            <p>Garantía de protección. Nuestros datos son tan impenetrables como la piel de un Furia Nocturna.</p>
+            <div class="feature-icon shadow"><i class="bi bi-shield-shaded"></i></div>
+            <h3 class="mt-3 text-white">Escamas Duras</h3>
+            <p>Garantía de protección en cada dragón.</p>
         </div>
-
         <div class="col text-center">
-            <div class="feature-icon shadow">
-                <i class="bi bi-gem"></i>
-            </div>
-            <h3 class="mt-3">Tesoros</h3>
-            <p>Gestiona el precio en oro de cada criatura y haz crecer la fortuna de tu clan.</p>
+            <div class="feature-icon shadow"><i class="bi bi-gem"></i></div>
+            <h3 class="mt-3 text-white">Tesoros</h3>
+            <p>Gestiona el precio en oro de cada criatura.</p>
         </div>
     </div>
 </div>
 
 <footer class="py-3 my-4 container border-top border-secondary">
-    <ul class="nav justify-content-center border-bottom border-secondary pb-3 mb-3">
-        <li class="nav-item"><a href="/" class="nav-link px-2 text-muted">Aldea</a></li>
-        <li class="nav-item"><a href="/productos" class="nav-link px-2 text-muted">Bestiario</a></li>
-    </ul>
     <p class="text-center text-muted">© 2025 Valhalla Code - Forjado en Spring Boot</p>
 </footer>
 

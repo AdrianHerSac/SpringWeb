@@ -23,38 +23,27 @@ public class ProductoController {
     private CategoriaServicio categoriaServicio;
 
     @GetMapping
-    public String home(@RequestParam(required = false) String busqueda, Model model) {
-        List<Producto> productos;
-        if (busqueda != null && !busqueda.isEmpty()) {
-            log.info("Buscando: " + busqueda);
-            productos = productoServicio.buscar(busqueda);
-            model.addAttribute("busqueda", busqueda);
-        } else {
-            log.info("Buscando");
-            productos = productoServicio.findAll();
-        }
-        model.addAttribute("productos", productos);
-        return "index";
-    }
-
-    @GetMapping("/lista")
     public String listar(@RequestParam(required = false) String busqueda, Model model) {
         List<Producto> productos;
+
         if (busqueda != null && !busqueda.isEmpty()) {
-            log.info("Buscando: " + busqueda);
+            log.info("Buscando bestia: " + busqueda);
             productos = productoServicio.buscar(busqueda);
             model.addAttribute("busqueda", busqueda);
         } else {
-            log.info("Buscando");
+            log.info("Listando todo el bestiario");
             productos = productoServicio.findAll();
         }
+
         model.addAttribute("productos", productos);
+        model.addAttribute("total", productos.size());
+
         return "productos/lista";
     }
 
     @GetMapping("/crear")
     public String formularioCrear(Model model) {
-        log.info("Creando producto");
+        log.info("Abriendo formulario de incubación");
         model.addAttribute("producto", new Producto());
         model.addAttribute("categorias", categoriaServicio.findAll());
         model.addAttribute("titulo", "Incubar Nueva Bestia");
@@ -63,13 +52,12 @@ public class ProductoController {
 
     @GetMapping("/{id}")
     public String detalle(@PathVariable Long id, Model model) {
-        log.info("Buscando producto por el id: " + id);
+        log.info("Consultando bestia id: " + id);
         Producto producto = productoServicio.findById(id);
 
         if (producto == null) {
-            log.info("Producto no encontrado");
-            model.addAttribute("error", "Producto no encontrado");
-            return "error/404";
+            log.warn("Bestia no encontrada en los registros");
+            return "error/404"; // Asegúrate de que creaste el archivo en templates/error/404.peb
         }
 
         model.addAttribute("producto", producto);
@@ -78,29 +66,33 @@ public class ProductoController {
 
     @GetMapping("/editar/{id}")
     public String formularioEditar(@PathVariable Long id, Model model) {
-        log.info("Buscando producto por el id: " + id + ", para editar");
+        log.info("Editando bestia id: " + id);
         Producto producto = productoServicio.findById(id);
+
         if (producto == null) {
-            log.info("No existe el producto con el id: {}", id);
-            return "redirect:/productos?error=notfound";
+            log.warn("Bestia no encontrada en los registros");
+            return "redirect:/error/404";
         }
+
         model.addAttribute("producto", producto);
         model.addAttribute("categorias", categoriaServicio.findAll());
-        model.addAttribute("titulo", "Editar Producto");
+        model.addAttribute("titulo", "Reentrenar Bestia (Editar)");
         return "productos/form";
     }
 
     @PostMapping("/guardar")
     public String guardar(@ModelAttribute Producto producto) {
-        log.info("Guardando producto: {}", producto);
+        log.info("Registrando bestia en el libro: {}", producto);
         productoServicio.guardar(producto);
-        return "redirect:/productos/lista";
+
+        return "redirect:/productos";
     }
 
     @GetMapping("/borrar/{id}")
     public String borrar(@PathVariable Long id) {
-        log.info("Borrando producto con el id: {}", id);
+        log.info("Sacrificando bestia id: {}", id);
         productoServicio.deleteById(id);
+
         return "redirect:/productos";
     }
 }

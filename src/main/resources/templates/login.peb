@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <title>Puertas de la Aldea</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=MedievalSharp&display=swap" rel="stylesheet">
+    <style>
+        body { background-color: #2b1d0e; color: #f4e4bc; font-family: 'MedievalSharp', cursive; display: flex; align-items: center; justify-content: center; height: 100vh; }
+        .login-card { background-color: #3e2723; border: 2px solid #d4af37; padding: 40px; border-radius: 10px; width: 100%; max-width: 400px; text-align: center; }
+        .btn-gold { background-color: #d4af37; color: #2b1d0e; font-weight: bold; width: 100%; border: none; }
+        .form-control { background: #5d4037; border: 1px solid #8d6e63; color: white; }
+    </style>
+</head>
+<body>
+    <div class="login-card">
+        <h1 class="mb-4">Identifícate</h1>
+
+        <form action="/login" method="post">
+            <input type="hidden" name="{{ _csrf.parameterName }}" value="{{ _csrf.token }}"/>
+
+            <div class="mb-3">
+                <input type="text" name="username" class="form-control" placeholder="Nombre de Vikingo" required>
+            </div>
+            <div class="mb-3">
+                <input type="password" name="password" class="form-control" placeholder="Salvoconducto (Pass)" required>
+            </div>
+            <button type="submit" class="btn btn-gold">Entrar</button>
+        </form>
+
+        <div class="mt-3">
+            <a href="/" class="text-white-50">Volver a los bosques</a>
+        </div>
+    </div>
+</body>
+</html>
