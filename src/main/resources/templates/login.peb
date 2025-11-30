@@ -9,20 +9,38 @@
         .login-card { background-color: #3e2723; border: 2px solid #d4af37; padding: 40px; border-radius: 10px; width: 100%; max-width: 400px; text-align: center; }
         .btn-gold { background-color: #d4af37; color: #2b1d0e; font-weight: bold; width: 100%; border: none; }
         .form-control { background: #5d4037; border: 1px solid #8d6e63; color: white; }
+
+        /* ESTILOS DE ERROR */
+        .alert-error {
+            background-color: #7f1d1d;
+            border: 1px solid #ef4444;
+            color: #fca5a5;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+        }
     </style>
 </head>
 <body>
     <div class="login-card">
         <h1 class="mb-4">Identifícate</h1>
 
+        {% if request.getParameter("error") != null %}
+            <div class="alert-error">
+                <strong>¡Acceso Denegado!</strong><br>
+                Revisa mayúsculas/minúsculas o la contraseña.
+            </div>
+        {% endif %}
+
         <form action="/login" method="post">
             <input type="hidden" name="{{ _csrf.parameterName }}" value="{{ _csrf.token }}"/>
 
             <div class="mb-3">
-                <input type="text" name="username" class="form-control" placeholder="Nombre de Vikingo" required>
+                <input type="text" name="username" class="form-control" placeholder="Usuario (Ej: Hipo)" required autofocus>
             </div>
             <div class="mb-3">
-                <input type="password" name="password" class="form-control" placeholder="Salvoconducto (Pass)" required>
+                <input type="password" name="password" class="form-control" placeholder="Contraseña (Ej: 1234)" required>
             </div>
             <button type="submit" class="btn btn-gold">Entrar</button>
         </form>

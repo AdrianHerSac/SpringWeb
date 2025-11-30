@@ -144,22 +144,6 @@
                 </div>
             </div>
 
-            <div class="card-footer ...">
-                {% if request.userPrincipal != null %}
-                    <a href="#" class="btn btn-sm btn-success w-100 mb-2">Comprar</a>
-
-                <div class="d-flex justify-content-center gap-2">
-                    <a href="/productos/editar/{{ producto.id }}" class="btn btn-sm btn-action"><i class="bi bi-pencil"></i></a>
-                    <a href="/productos/borrar/{{ producto.id }}" class="btn btn-sm btn-danger-custom"><i class="bi bi-trash-fill"></i></a>
-                </div>
-
-                {% else %}
-                    <a href="/productos/{{ producto.id }}" class="btn btn-sm btn-gold w-100">
-                    Ver Detalles
-                    </a>
-                {% endif %}
-            </div>
-
             <div class="actions-bar">
                 <a href="/productos/lista" class="btn btn-outline-dark btn-medieval">
                     <i class="bi bi-arrow-left"></i> Volver al Bestiario

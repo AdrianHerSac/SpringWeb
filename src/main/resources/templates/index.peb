@@ -146,17 +146,18 @@
 <div class="container px-4 py-5" id="features">
     <h2 class="text-center pb-2 border-bottom border-secondary mb-5 text-white">Nuestros Servicios</h2>
     <div class="row g-4 py-3 row-cols-1 row-cols-lg-3">
-        <div class="col text-center">
+
+        <div class="col-md-6 sm-10 text-center">
             <div class="feature-icon shadow"><i class="bi bi-fire"></i></div>
             <h3 class="mt-3 text-white">Poder de Fuego</h3>
             <p>Clasificamos a las bestias por su potencia de llama.</p>
         </div>
-        <div class="col text-center">
+        <div class="col-md-6 sm-10 text-center">
             <div class="feature-icon shadow"><i class="bi bi-shield-shaded"></i></div>
             <h3 class="mt-3 text-white">Escamas Duras</h3>
             <p>Garantía de protección en cada dragón.</p>
         </div>
-        <div class="col text-center">
+        <div class="col-md-6 sm-10 text-center">
             <div class="feature-icon shadow"><i class="bi bi-gem"></i></div>
             <h3 class="mt-3 text-white">Tesoros</h3>
             <p>Gestiona el precio en oro de cada criatura.</p>

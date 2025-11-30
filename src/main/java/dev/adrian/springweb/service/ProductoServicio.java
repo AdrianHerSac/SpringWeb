@@ -105,10 +105,10 @@ public class ProductoServicio {
         if (usuarioRepository.findByUsername("Hipo").isEmpty()) {
             Usuario hipo = new Usuario();
             hipo.setUsername("Hipo");
-            hipo.setPassword(passwordEncoder.encode("1234")); // Contraseña: 1234
+            hipo.setPassword(passwordEncoder.encode("1234"));
             hipo.setRol("ADMIN");
             usuarioRepository.save(hipo);
+            System.out.println("✅ USUARIO HIPO CREADO");
         }
-
     }
 }
