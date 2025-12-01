@@ -14,21 +14,26 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http
-            .authorizeHttpRequests((requests) -> requests
-                    .requestMatchers("/css/**", "/js/**", "/images/**", "/multimedia/**").permitAll()
-                    .requestMatchers("/", "/productos", "/productos/{id}").permitAll()
-                    .anyRequest().authenticated()
-            )
-            .formLogin((form) -> form
-                     .loginPage("/login")
-                     .defaultSuccessUrl("/productos", true)
-                     .permitAll()
-            )
-            .logout((logout) -> logout
-                    .logoutSuccessUrl("/")
-                    .permitAll()
-            );
+        // AÑADE ESTO (Desactiva la protección CSRF temporalmente)
+        http.csrf(csrf -> csrf.disable())
+
+                .authorizeHttpRequests((requests) -> requests
+                        .requestMatchers("/css/**", "/js/**", "/images/**", "/multimedia/**").permitAll()
+                        .requestMatchers("/", "/productos", "/productos/**").permitAll()
+                        .anyRequest().authenticated()
+                )
+
+                .formLogin((form) -> form
+                        .loginPage("/login")
+                        .defaultSuccessUrl("/productos", true)
+                        .permitAll()
+                )
+
+                .logout((logout) -> logout
+                        .logoutSuccessUrl("/")
+                        .permitAll()
+                );
+
         return http.build();
     }
 

@@ -40,6 +40,15 @@ public class ProductoServicio {
         return productoRepository.findById(id).orElse(null);
     }
 
+    public Producto findByIdYSumarVisita(Long id) {
+        Producto producto = productoRepository.findById(id).orElse(null);
+        if (producto != null) {
+            producto.setVisitas(producto.getVisitas() + 1);
+            productoRepository.save(producto);
+        }
+        return producto;
+    }
+
     public void guardar(Producto producto) {
         productoRepository.save(producto);
     }
@@ -48,28 +57,29 @@ public class ProductoServicio {
         productoRepository.deleteById(id);
     }
 
-    public List<Producto> findByCategoria(String categoria) {
-        return List.of();
+    public void reducirStock(Long id, int cantidad) {
+        Producto producto = productoRepository.findById(id).orElseThrow();
+
+        if (producto.getStock() < cantidad) {
+            throw new RuntimeException("No hay suficiente stock");
+        }
+
+        // Restamos el stock
+        producto.setStock(producto.getStock() - cantidad);
+
+        // Guardamos el cambio
+        productoRepository.save(producto);
     }
 
     @PostConstruct
     public void init() {
 
+        // Categorías
         Categoria catFuego = Categoria.builder()
                 .nombre("Fuego")
                 .descripcion("Dragones de clase fogonero")
                 .build();
         categoriaRepository.save(catFuego);
-
-        productoRepository.save(
-                Producto.builder()
-                        .nombre("Pesadilla Monstruosa")
-                        .precio(9.99)
-                        .categoria(catFuego)
-                        .historia("El dragón más temperamental del mundo vikingo.")
-                        .imagen("/multimedia/Pesadilla-monstruosa.png")
-                        .build()
-        );
 
         Categoria catAgua = Categoria.builder()
                 .nombre("Agua")
@@ -77,28 +87,49 @@ public class ProductoServicio {
                 .build();
         categoriaRepository.save(catAgua);
 
-        productoRepository.save(
-                Producto.builder()
-                        .nombre("Nadder Mortifero")
-                        .precio(19.99)
-                        .categoria(catAgua)
-                        .historia("Dragón con escamas brillantes")
-                        .imagen("/multimedia/Nadder-mortifero.png")
-                        .build()
-        );
-
-        Categoria catDesconocida = Categoria.builder()
+        Categoria catMisterio = Categoria.builder()
                 .nombre("Misterio")
                 .descripcion("Clase desconocida o híbrida")
                 .build();
-        categoriaRepository.save(catDesconocida);
+        categoriaRepository.save(catMisterio);
+
 
         productoRepository.save(
                 Producto.builder()
-                        .nombre("Furia Nocturna")
-                        .precio(99.99)
-                        .categoria(catDesconocida)
-                        .historia("La cría impía del rayo y la muerte misma.")
+                        .nombre("Peluche Pesadilla Monstruosa")
+                        .precio(12.99)
+                        .categoria(catFuego)
+                        .historia("Pequeño pero con mucho carácter. Ojos bordados a mano.")
+                        .imagen("/multimedia/Pesadilla-monstruosa.png")
+                        .color("Rojo Fuego")
+                        .stock(15)
+                        .size(Producto.Size.S) // Talla Pequeña
+                        .build()
+        );
+
+        productoRepository.save(
+                Producto.builder()
+                        .nombre("Cojín Nadder Mortífero")
+                        .precio(19.99)
+                        .categoria(catAgua)
+                        .historia("Ideal para dormir la siesta. Relleno de plumas de ganso.")
+                        .imagen("/multimedia/Nadder-mortifero.png")
+                        .color("Azul y Amarillo")
+                        .stock(5) // Poco stock
+                        .size(Producto.Size.L) // Talla Grande
+                        .build()
+        );
+
+        productoRepository.save(
+                Producto.builder()
+                        .nombre("Furia Nocturna Premium")
+                        .precio(29.99)
+                        .categoria(catMisterio)
+                        .historia("Suave, adorable y con alas de fieltro reforzado. Edición limitada.")
+                        .imagen("/multimedia/furia-nocturna-plush.png") // Asegúrate de tener esta foto o usa otra
+                        .color("Negro Azabache")
+                        .stock(50)
+                        .size(Producto.Size.M) // Talla Mediana
                         .build()
         );
 

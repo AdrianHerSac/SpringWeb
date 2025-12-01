@@ -3,8 +3,6 @@ package dev.adrian.springweb.model;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.UUID;
-
 @Entity
 @Table(name = "productos")
 @Data
@@ -29,13 +27,16 @@ public class Producto {
 
     private String historia;
 
-    @Column(length = 1000)
+    @Column(length = 2048)
     private String imagen;
 
     private int stock;
 
     @Enumerated(EnumType.STRING)
     private Size size;
+
+    @Builder.Default
+    private Long visitas = 0L;
 
     public enum Size {
         S, M, L, XL

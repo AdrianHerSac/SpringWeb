@@ -39,7 +39,7 @@
             font-size: 3rem;
             border-bottom: 3px double #5d4037;
             padding-bottom: 10px;
-            margin-bottom: 30px;
+            margin-bottom: 15px; /* Reducido un poco para el contador */
         }
 
         .dragon-portrait-container {
@@ -97,12 +97,25 @@
             padding-top: 20px;
             display: flex;
             justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
         }
 
         .btn-medieval {
             font-family: 'Cinzel', serif;
             text-transform: uppercase;
             letter-spacing: 1px;
+        }
+
+        /* Estilo para los detalles del peluche (Talla, Color, Stock) */
+        .stats-card {
+            background-color: #3e2723; /* Marrón oscuro */
+            color: #f4e4bc; /* Color pergamino claro */
+            border: 2px solid #d4af37; /* Borde dorado */
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 20px;
         }
     </style>
 </head>
@@ -111,17 +124,24 @@
 <div class="parchment-page">
 
     <div class="row">
+        <!-- COLUMNA IZQUIERDA: FOTO -->
         <div class="col-md-5">
             <div class="dragon-portrait-container">
                 <img src="{{ producto.imagen is empty ? 'https://placehold.co/400x500/5d4037/f4e4bc?text=Sin+Retrato' : producto.imagen }}"
                      alt="{{ producto.nombre }}"
                      class="dragon-img">
-                <p class="mt-2 text-muted fst-italic">Fig. 1: Avistamiento reciente</p>
+                <p class="mt-2 text-muted fst-italic">Fig. 1: Muestra del producto</p>
             </div>
         </div>
 
+        <!-- COLUMNA DERECHA: DATOS -->
         <div class="col-md-7">
             <h1>{{ producto.nombre }}</h1>
+
+            <!-- CONTADOR DE VISITAS -->
+            <div class="mb-3 text-muted" style="font-family: 'Cinzel', serif; font-size: 0.9rem;">
+                <i class="bi bi-eye-fill"></i> {{ producto.visitas }} curiosos han observado este tesoro
+            </div>
 
             <div class="mb-4">
                 <span class="info-label">Clase / Raza:</span>
@@ -130,10 +150,32 @@
                 </span>
             </div>
 
+            <!-- TARJETA DE ESTADÍSTICAS (TALLA, COLOR, STOCK) -->
+            <div class="stats-card">
+                <div class="row text-center">
+                    <div class="col-4 border-end border-secondary">
+                        <small class="text-white-50 d-block" style="font-family: sans-serif; font-size: 0.7rem;">TALLA</small>
+                        <span class="fs-4 text-warning fw-bold">{{ producto.size }}</span>
+                    </div>
+                    <div class="col-4 border-end border-secondary">
+                        <small class="text-white-50 d-block" style="font-family: sans-serif; font-size: 0.7rem;">COLOR</small>
+                        <span class="fs-6">{{ producto.color }}</span>
+                    </div>
+                    <div class="col-4">
+                        <small class="text-white-50 d-block" style="font-family: sans-serif; font-size: 0.7rem;">STOCK</small>
+                        {% if producto.stock > 0 %}
+                            <span class="text-success fw-bold">{{ producto.stock }}</span>
+                        {% else %}
+                            <span class="text-danger fw-bold">AGOTADO</span>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
             <div class="mb-4">
-                <span class="info-label">Descripción del Domador:</span>
+                <span class="info-label">Descripción del Mercader:</span>
                 <div class="info-value">
-                    {{ producto.historia is empty ? "No hay registros sobre el comportamiento de esta bestia." : producto.historia }}
+                    {{ producto.historia is empty ? "No hay detalles sobre la procedencia de este artículo." : producto.historia }}
                 </div>
             </div>
 
@@ -144,27 +186,36 @@
                 </div>
             </div>
 
+            <!-- BARRA DE ACCIONES -->
             <div class="actions-bar">
-                <a href="/productos/lista" class="btn btn-outline-dark btn-medieval">
-                    <i class="bi bi-arrow-left"></i> Volver al Bestiario
+                <a href="/productos" class="btn btn-outline-dark btn-medieval">
+                    <i class="bi bi-arrow-left"></i> Volver
                 </a>
 
-                <div>
-                    <a href="/productos/editar/{{ producto.id }}" class="btn btn-warning btn-medieval">
-                        <i class="bi bi-pencil-fill"></i> Editar
-                    </a>
-                </div>
-                <div>
-                    <a href="/productos/comprar/{{ producto.id }}" class="btn btn-primary btn-medieval">
+                <div class="d-flex gap-2">
+                    <!-- BOTONES PARA EL USUARIO (O JEFE) -->
+                    {% if producto.stock > 0 %}
+                    <a href="/productos/compra" class="btn btn-primary btn-medieval">
                         <i class="bi bi-basket-fill"></i> Comprar
                     </a>
-                </div>
-                <div>
-                    <a href="/productos/borrar/{{ producto.id }}"
-                       class="btn btn-danger btn-medieval ms-2"
-                       onclick="return confirm('¿Seguro que quieres borrar esta página del libro?');">
-                        <i class="bi bi-trash-fill"></i>
-                    </a>
+                    {% else %}
+                    <button class="btn btn-secondary btn-medieval" disabled>
+                        Sin Stock
+                    </button>
+                    {% endif %}
+
+                    <!-- BOTONES DE GESTIÓN (SOLO SI ESTÁ LOGUEADO) -->
+                    {% if request.userPrincipal != null %}
+                        <a href="/productos/editar/{{ producto.id }}" class="btn btn-warning btn-medieval" title="Editar">
+                            <i class="bi bi-pencil-fill"></i>
+                        </a>
+                        <a href="/productos/borrar/{{ producto.id }}"
+                           class="btn btn-danger btn-medieval"
+                           title="Borrar"
+                           onclick="return confirm('¿Seguro que quieres borrar este artículo del inventario?');">
+                            <i class="bi bi-trash-fill"></i>
+                        </a>
+                    {% endif %}
                 </div>
             </div>
         </div>
