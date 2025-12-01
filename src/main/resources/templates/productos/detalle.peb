@@ -108,7 +108,6 @@
             letter-spacing: 1px;
         }
 
-        /* Estilo para los detalles del peluche (Talla, Color, Stock) */
         .stats-card {
             background-color: #3e2723; /* Marrón oscuro */
             color: #f4e4bc; /* Color pergamino claro */

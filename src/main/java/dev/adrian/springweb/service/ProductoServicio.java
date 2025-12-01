@@ -7,12 +7,14 @@ import dev.adrian.springweb.repository.CategoriaRepository;
 import dev.adrian.springweb.repository.ProductoRepository;
 import dev.adrian.springweb.repository.UsuarioRepository;
 import jakarta.annotation.PostConstruct;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Slf4j
 @Service
 public class ProductoServicio {
 
@@ -109,7 +111,7 @@ public class ProductoServicio {
 
         productoRepository.save(
                 Producto.builder()
-                        .nombre("Cojín Nadder Mortífero")
+                        .nombre("Peluche Nadder Mortífero")
                         .precio(19.99)
                         .categoria(catAgua)
                         .historia("Ideal para dormir la siesta. Relleno de plumas de ganso.")
@@ -122,11 +124,11 @@ public class ProductoServicio {
 
         productoRepository.save(
                 Producto.builder()
-                        .nombre("Furia Nocturna Premium")
+                        .nombre("Peluche Furia Nocturna Premium")
                         .precio(29.99)
                         .categoria(catMisterio)
                         .historia("Suave, adorable y con alas de fieltro reforzado. Edición limitada.")
-                        .imagen("/multimedia/furia-nocturna-plush.png") // Asegúrate de tener esta foto o usa otra
+                        .imagen("/multimedia/Furia-Nocturna.png")
                         .color("Negro Azabache")
                         .stock(50)
                         .size(Producto.Size.M) // Talla Mediana
@@ -139,7 +141,7 @@ public class ProductoServicio {
             hipo.setPassword(passwordEncoder.encode("1234"));
             hipo.setRol("ADMIN");
             usuarioRepository.save(hipo);
-            System.out.println("✅ USUARIO HIPO CREADO");
+            log.info("Usuario "+ hipo +" creado correctamente");
         }
     }
 }

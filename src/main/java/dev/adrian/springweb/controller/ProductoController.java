@@ -24,15 +24,15 @@ public class ProductoController {
 
     @GetMapping
     public String listar(@RequestParam(required = false) String busqueda, Model model) {
-        log.info("Buscando productos por busqueda {}", busqueda);
+        log.info("Buscando productos por búsqueda {}", busqueda);
         List<Producto> productos;
 
         if (busqueda != null && !busqueda.isEmpty()) {
             log.info("Buscando bestia: " + busqueda);
             productos = productoServicio.buscar(busqueda);
-            model.addAttribute("busqueda", busqueda);
+            model.addAttribute("búsqueda", busqueda);
         } else {
-            log.info("Listando todo el bestiario");
+            log.info("Listando el bestiario de dragones");
             productos = productoServicio.findAll();
         }
 
@@ -58,6 +58,7 @@ public class ProductoController {
     public String formularioEditar(@PathVariable Long id, Model model) {
         log.info("Abriendo formulario de editar");
         Producto producto = productoServicio.findById(id);
+
         if (producto == null) {
             log.info("No existe el producto con el id: " + id);
             return "redirect:/productos?error=notfound";
@@ -78,7 +79,7 @@ public class ProductoController {
 
         if (producto == null) {
             log.warn("Bestia no encontrada en los registros");
-            return "error/404"; // Asegúrate de que creaste el archivo en templates/error/404.peb
+            return "error/404";
         }
 
         model.addAttribute("producto", producto);
@@ -104,12 +105,15 @@ public class ProductoController {
     @GetMapping("/comprar/{id}")
     public String vistaCompra(@PathVariable Long id, Model model) {
         Producto producto = productoServicio.findById(id);
+        log.info("Vistando bestia: {}", producto);
 
         if (producto == null) {
+            log.info("No existe el producto con el id: " + id);
             return "redirect:/productos";
         }
 
         if (producto.getStock() <= 0) {
+            log.info("Vistando bestia: {}", producto);
             return "redirect:/productos/" + id + "?error=nostock";
         }
 
