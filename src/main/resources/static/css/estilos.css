@@ -1,0 +1,18 @@
+body {
+    background-color: #2b1d0e;
+    background-image: repeating-linear-gradient(45deg, #2b1d0e 0, #2b1d0e 1px, #1f140a 0, #1f140a 50%);
+    font-family: 'MedievalSharp', cursive;
+    color: #3e2723;
+    min-height: 100vh;
+}
+
+.navbar {
+    background-color: #2c0b0b !important;
+    border-bottom: 3px solid #d4af37; /* La línea dorada */
+    margin-bottom: 40px;
+}
+
+.navbar-brand {
+    color: #d4af37 !important;
+    font-weight: bold;
+}

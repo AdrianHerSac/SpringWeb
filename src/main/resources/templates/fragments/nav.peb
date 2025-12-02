@@ -1,0 +1,49 @@
+<nav class="navbar navbar-expand-lg navbar-dark">
+    <div class="container">
+        <a class="navbar-brand" href="/">
+            <i class="bi bi-fire"></i> Dragon Market
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto align-items-center">
+
+                <!-- Enlace Aldea (Inicio) -->
+                <li class="nav-item">
+                    <a class="nav-link {{ request.servletPath == '/' ? 'active' : '' }}" href="/">
+                        Aldea
+                    </a>
+                </li>
+
+                <!-- Enlace Bestiario (Productos) -->
+                <li class="nav-item">
+                    <a class="nav-link {{ request.servletPath contains '/productos' ? 'active' : '' }}" href="/productos">
+                        Bestiario
+                    </a>
+                </li>
+
+                <!-- Lógica de Sesión -->
+                {% if request.userPrincipal == null %}
+                    <li class="nav-item ms-3">
+                        <a class="btn btn-outline-warning btn-sm" href="/login">
+                            <i class="bi bi-key-fill"></i> Iniciar Sesión
+                        </a>
+                    </li>
+                {% else %}
+                    <li class="nav-item ms-3 text-warning">
+                        <i class="bi bi-person-circle"></i> Jefe {{ request.userPrincipal.name }}
+                    </li>
+                    <li class="nav-item ms-2">
+                        <form action="/logout" method="post" style="display:inline;">
+                            <input type="hidden" name="{{ _csrf.parameterName }}" value="{{ _csrf.token }}"/>
+                            <button type="submit" class="btn btn-sm btn-danger">
+                                <i class="bi bi-door-open"></i> Salir
+                            </button>
+                        </form>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</nav>

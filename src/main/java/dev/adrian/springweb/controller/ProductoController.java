@@ -28,11 +28,9 @@ public class ProductoController {
         List<Producto> productos;
 
         if (busqueda != null && !busqueda.isEmpty()) {
-            log.info("Buscando bestia: " + busqueda);
             productos = productoServicio.buscar(busqueda);
-            model.addAttribute("búsqueda", busqueda);
+            model.addAttribute("busqueda", busqueda);
         } else {
-            log.info("Listando el bestiario de dragones");
             productos = productoServicio.findAll();
         }
 
@@ -44,41 +42,32 @@ public class ProductoController {
 
     @GetMapping("/crear")
     public String formularioCrear(Model model) {
-        log.info("Abriendo formulario de incubación");
         model.addAttribute("producto", new Producto());
         model.addAttribute("categorias", categoriaServicio.findAll());
-
         model.addAttribute("tallas", Producto.Size.values());
-
         model.addAttribute("titulo", "Incubar Nuevo Peluche");
         return "productos/form";
     }
 
     @GetMapping("/editar/{id}")
     public String formularioEditar(@PathVariable Long id, Model model) {
-        log.info("Abriendo formulario de editar");
         Producto producto = productoServicio.findById(id);
 
         if (producto == null) {
-            log.info("No existe el producto con el id: " + id);
             return "redirect:/productos?error=notfound";
         }
         model.addAttribute("producto", producto);
         model.addAttribute("categorias", categoriaServicio.findAll());
-
         model.addAttribute("tallas", Producto.Size.values());
-
         model.addAttribute("titulo", "Zurcir/Editar Peluche");
         return "productos/form";
     }
 
     @GetMapping("/{id}")
     public String detalle(@PathVariable Long id, Model model) {
-        log.info("Consultando bestia id: " + id);
         Producto producto = productoServicio.findById(id);
 
         if (producto == null) {
-            log.warn("Bestia no encontrada en los registros");
             return "error/404";
         }
 
@@ -88,32 +77,28 @@ public class ProductoController {
 
     @PostMapping("/guardar")
     public String guardar(@ModelAttribute Producto producto) {
-        log.info("Registrando bestia en el libro: {}", producto);
         productoServicio.guardar(producto);
-
         return "redirect:/productos";
     }
 
     @GetMapping("/borrar/{id}")
     public String borrar(@PathVariable Long id) {
-        log.info("Sacrificando bestia id: {}", id);
         productoServicio.deleteById(id);
-
         return "redirect:/productos";
     }
 
-    @GetMapping("/comprar/{id}")
+    // --- AQUÍ ESTABAN LOS ERRORES ---
+
+    // 1. CAMBIO: @PathVariable en lugar de @RequestParam
+    @GetMapping("/compra/{id}")
     public String vistaCompra(@PathVariable Long id, Model model) {
         Producto producto = productoServicio.findById(id);
-        log.info("Vistando bestia: {}", producto);
 
         if (producto == null) {
-            log.info("No existe el producto con el id: " + id);
             return "redirect:/productos";
         }
 
         if (producto.getStock() <= 0) {
-            log.info("Vistando bestia: {}", producto);
             return "redirect:/productos/" + id + "?error=nostock";
         }
 
@@ -121,16 +106,17 @@ public class ProductoController {
         return "productos/compra";
     }
 
-    @GetMapping("/comprar")
+    // 2. CAMBIO: @PostMapping (porque el formulario envía POST)
+    @PostMapping("/compra")
     public String procesarCompra(@RequestParam Long id,
                                  @RequestParam int cantidad) {
-        log.info("Sacrificando bestia id: {}", id);
+        log.info("Procesando compra id: {} cantidad: {}", id, cantidad);
 
         try {
             productoServicio.reducirStock(id, cantidad);
         } catch (Exception e) {
             return "redirect:/productos/" + id + "?error=stock_insuficiente";
         }
-        return "redirect:/productos/lista?exito=compra_realizada";
+        return "redirect:/productos?exito=compra_realizada";
     }
 }

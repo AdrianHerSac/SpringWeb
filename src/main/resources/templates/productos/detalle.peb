@@ -127,8 +127,7 @@
         <div class="col-md-5">
             <div class="dragon-portrait-container">
                 <img src="{{ producto.imagen is empty ? 'https://placehold.co/400x500/5d4037/f4e4bc?text=Sin+Retrato' : producto.imagen }}"
-                     alt="{{ producto.nombre }}"
-                     class="dragon-img">
+                     alt="{{ producto.nombre }}" class="dragon-img">
                 <p class="mt-2 text-muted fst-italic">Fig. 1: Muestra del producto</p>
             </div>
         </div>
@@ -192,9 +191,10 @@
                 </a>
 
                 <div class="d-flex gap-2">
-                    <!-- BOTONES PARA EL USUARIO (O JEFE) -->
-                    {% if producto.stock > 0 %}
-                    <a href="/productos/compra" class="btn btn-primary btn-medieval">
+                    {% if request.userPrincipal != null %}
+                        <!-- BOTONES PARA EL USUARIO (O JEFE) -->
+                        {% if producto.stock > 0 %}
+                        <a href="/productos/compra/ {{ producto.id }}" class="btn btn-primary btn-medieval">
                         <i class="bi bi-basket-fill"></i> Comprar
                     </a>
                     {% else %}
@@ -204,13 +204,12 @@
                     {% endif %}
 
                     <!-- BOTONES DE GESTIÓN (SOLO SI ESTÁ LOGUEADO) -->
-                    {% if request.userPrincipal != null %}
+
                         <a href="/productos/editar/{{ producto.id }}" class="btn btn-warning btn-medieval" title="Editar">
                             <i class="bi bi-pencil-fill"></i>
                         </a>
                         <a href="/productos/borrar/{{ producto.id }}"
-                           class="btn btn-danger btn-medieval"
-                           title="Borrar"
+                           class="btn btn-danger btn-medieval" title="Borrar"
                            onclick="return confirm('¿Seguro que quieres borrar este artículo del inventario?');">
                             <i class="bi bi-trash-fill"></i>
                         </a>
@@ -219,7 +218,6 @@
             </div>
         </div>
     </div>
-
 </div>
 
 </body>
