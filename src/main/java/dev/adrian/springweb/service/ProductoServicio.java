@@ -42,15 +42,6 @@ public class ProductoServicio {
         return productoRepository.findById(id).orElse(null);
     }
 
-    public Producto findByIdYSumarVisita(Long id) {
-        Producto producto = productoRepository.findById(id).orElse(null);
-        if (producto != null) {
-            producto.setVisitas(producto.getVisitas() + 1);
-            productoRepository.save(producto);
-        }
-        return producto;
-    }
-
     public void guardar(Producto producto) {
         productoRepository.save(producto);
     }
@@ -65,18 +56,14 @@ public class ProductoServicio {
         if (producto.getStock() < cantidad) {
             throw new RuntimeException("No hay suficiente stock");
         }
-
-        // Restamos el stock
         producto.setStock(producto.getStock() - cantidad);
 
-        // Guardamos el cambio
         productoRepository.save(producto);
     }
 
     @PostConstruct
     public void init() {
 
-        // Categorías
         Categoria catFuego = Categoria.builder()
                 .nombre("Fuego")
                 .descripcion("Dragones de clase fogonero")
@@ -94,7 +81,6 @@ public class ProductoServicio {
                 .descripcion("Clase desconocida o híbrida")
                 .build();
         categoriaRepository.save(catMisterio);
-
 
         productoRepository.save(
                 Producto.builder()

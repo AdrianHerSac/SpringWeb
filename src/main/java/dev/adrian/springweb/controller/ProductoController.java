@@ -87,9 +87,6 @@ public class ProductoController {
         return "redirect:/productos";
     }
 
-    // --- AQUÍ ESTABAN LOS ERRORES ---
-
-    // 1. CAMBIO: @PathVariable en lugar de @RequestParam
     @GetMapping("/compra/{id}")
     public String vistaCompra(@PathVariable Long id, Model model) {
         Producto producto = productoServicio.findById(id);
@@ -106,7 +103,6 @@ public class ProductoController {
         return "productos/compra";
     }
 
-    // 2. CAMBIO: @PostMapping (porque el formulario envía POST)
     @PostMapping("/compra")
     public String procesarCompra(@RequestParam Long id,
                                  @RequestParam int cantidad) {

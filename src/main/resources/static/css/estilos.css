@@ -1,18 +1,36 @@
+@import url('https://fonts.googleapis.com/css2?family=MedievalSharp&family=Cinzel:wght@700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap');
+
 body {
     background-color: #2b1d0e;
     background-image: repeating-linear-gradient(45deg, #2b1d0e 0, #2b1d0e 1px, #1f140a 0, #1f140a 50%);
     font-family: 'MedievalSharp', cursive;
     color: #3e2723;
-    min-height: 100vh;
 }
 
 .navbar {
     background-color: #2c0b0b !important;
-    border-bottom: 3px solid #d4af37; /* La línea dorada */
-    margin-bottom: 40px;
+    border-bottom: 3px solid #d4af37;
 }
 
 .navbar-brand {
     color: #d4af37 !important;
     font-weight: bold;
+}
+
+.nav-link {
+    color: #e0e0e0 !important;
+    font-family: 'Lato', sans-serif;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+.nav-link:hover, .nav-link.active {
+    color: #d4af37 !important;
+}
+
+.btn-medieval {
+    font-family: 'Cinzel', serif;
+    text-transform: uppercase;
+    letter-spacing: 1px;
 }
