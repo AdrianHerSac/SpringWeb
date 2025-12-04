@@ -2,8 +2,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap');
 
 body {
-    background-color: #2b1d0e;
-    background-image: repeating-linear-gradient(45deg, #2b1d0e 0, #2b1d0e 1px, #1f140a 0, #1f140a 50%);
+    background: linear-gradient(115deg, #312010 0%, #000000) 100%, url('https://placehold.co/1200x600/550606/d4af37?text=Guarida+del+Dragon');
     font-family: 'MedievalSharp', cursive;
     color: #3e2723;
 }
