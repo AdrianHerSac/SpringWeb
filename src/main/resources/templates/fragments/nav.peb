@@ -9,7 +9,6 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto align-items-center">
 
-                <!-- Enlace Aldea (Inicio) -->
                 <li class="nav-item">
                     <a class="nav-link {{ request.servletPath == '/' ? 'active' : '' }}" href="/">
                         Aldea

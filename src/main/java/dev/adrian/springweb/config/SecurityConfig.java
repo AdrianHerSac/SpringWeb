@@ -19,16 +19,14 @@ public class SecurityConfig {
 
                 .authorizeHttpRequests((requests) -> requests
                         .requestMatchers("/css/**", "/js/**", "/images/**", "/multimedia/**").permitAll()
-                        .requestMatchers("/", "/productos", "/productos/**").permitAll()
+                        .requestMatchers("/", "/productos", "/productos/**", "/registro").permitAll()
                         .anyRequest().authenticated()
                 )
-
                 .formLogin((form) -> form
                         .loginPage("/login")
                         .defaultSuccessUrl("/productos", true)
                         .permitAll()
                 )
-
                 .logout((logout) -> logout
                         .logoutSuccessUrl("/")
                         .permitAll()

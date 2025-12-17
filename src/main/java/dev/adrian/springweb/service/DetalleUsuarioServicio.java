@@ -36,4 +36,18 @@ public class DetalleUsuarioServicio implements UserDetailsService {
                 .roles(usuario.getRol())
                 .build();
     }
+
+    public void registrarNuevoUsuario(String username, String password ) {
+        if (usuarioRepository.findByUsername(username).isPresent()) {
+            throw new UsernameNotFoundException("Usuario existente");
+        }
+
+        Usuario usuario = new Usuario();
+        usuario.setUsername(username);
+
+        usuario.setPassword(password);
+        usuarioRepository.save(usuario);
+
+        usuarioRepository.save(usuario);
+    }
 }
