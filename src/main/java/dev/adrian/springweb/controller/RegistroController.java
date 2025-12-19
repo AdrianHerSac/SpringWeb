@@ -14,13 +14,11 @@ public class RegistroController {
     @Autowired
     private DetalleUsuarioServicio usuarioServicio;
 
-    // Mostrar el formulario
     @GetMapping("/registro")
     public String formularioRegistro() {
         return "registro";
     }
 
-    // Procesar el registro
     @PostMapping("/registro")
     public String registrar(@RequestParam String username, @RequestParam String password, Model model) {
         try {

@@ -1,0 +1,85 @@
+{% include "fragments/nav" %}
+
+<div id="body">
+    <h1 id="titulo">REGISTRO DE USUARIO</h1>
+        <form id="formulario" action="javascript:alert(recuperarDatos())" onsubmit="return validarForm()">
+            <div>
+                <label>Nombre y apellidos</label><br/>
+                <input class="caja" id="nombre" type="text" name="nombre" placeholder="Nombre & apellidos" onfocus="entraFoco(this)" onblur="saleFoco(this);validarStringInside(this,2,120,errorNombre);" maxlength="120">
+                <p class="obligatorio" id="errorNombre">Nombre debe de ser obligatorio y tener entre 2 y 120 caracteres</p>
+            </div>
+            <div>
+                <label class="linea">Direccion</label><br/>
+                <input class="caja" id="direccion" type="text" name="direccion" placeholder="Direccion" onfocus="entraFoco(this)" onblur="saleFoco(this);validarStringInside(this,4,120,errorDireccion);" maxlength="120">
+                <p class="obligatorio" id="errorDireccion">Dirección es obligatorio entre 4 y 120 caracteres </p>
+            </div>
+            <div>
+                <label class="linea">Direccion completa</label><br/>
+                <input class="caja" id="direccionCompleta" type="text" name="direccionCompleta" placeholder="Direccion completa" onfocus="entraFoco(this);" onblur="saleFoco(this);validarStringInside(this,0,120,capanula);" maxlength="120">
+                <p class="obligatorio" id="capanula"></p>
+            </div>
+            <div>
+                <label class="linea">Telefono</label><br/>
+                <input class="caja" id="telefono" type="text" name="telefono" placeholder="Telefono" onfocus="entraFoco(this)" onblur="saleFoco(this);validarTelefonoInside(this,errorTelefono);" maxlength="9">
+                <p class="obligatorio" id="errorTelefono">Telefono tiene que ser de 9 de longitud y comenzar por 6, 7 o 9</p>
+            </div>
+            <div>
+                <label class="linea">CP</label><br/>
+                <input class="caja" id="codigoPostal" type="text" name="codigoPostal" placeholder="Codigo postal" onfocus="entraFoco(this)" onblur="saleFoco(this);validarCPInside(this,5,5,errorCP);" maxlength="5">
+                <p class="obligatorio" id="errorCP">Código postal erróneo, formato 00000 </p>
+            </div>
+            <div>
+                <label class="linea">Ciudad</label><br/>
+                <input class="caja" id="ciudad" type="text" name="ciudad" placeholder="Ciudad" onfocus="entraFoco(this);" onblur="saleFoco(this)">
+            </div>
+            <div>
+                <label class="linea">Provincia</label><br/>
+                <select class="cajaList1" id="provincia" name="provincia" onfocus="entraFoco(this);" onblur="saleFoco(this)">
+                    <option value="0" selected="selected">- Selecciona provincia -</option>
+                    <option value="29">Madrid</option>
+                    <option value="05">Avila</option>
+                    <option value="45">Toledo</option>
+                    <option value="43">Segovia</option>
+                    <option value="21">Guadalajara</option>
+                </select>
+            </div>
+            <div class="noCaja" onmouseover="entraFoco(this);" onmouseout="saleFoco(this);">
+                <label class="linea">Preferente</label>
+                <input id="preferente" type="checkbox" name="prefe">
+                <span id="tooltip">Accede a una vida mejor</span>
+            </div>
+            <div class="noCaja" id="sexo" onmouseover="entraFoco(this);" onmouseout="saleFoco(this);validarBotonesRadioInside(sexo,'sexo');">
+                *<input id="hombre" type="radio" name="sexo" value="H">
+                <label class="linea">Hombre</label>
+                <input id="mujer" type="radio" name="sexo" value="M">
+                <label class="linea">Mujer</label>
+            </div>
+            <p class="obligatorio" id="obligatorioSexo">campo obligatorio</p>
+            <div>
+                <label class="linea">Intereses</label><br/>
+                <select class="cajaList" id="interes" name="interes" multiple="multiple" onfocus="entraFoco(this);" onblur="saleFoco(this);validarListasInside(interes,'interes');">
+                    <option value="amor">Amor</option>
+                    <option value="leer">Leer</option>
+                    <option value="deportes">Deportes</option>
+                    <option value="peliculas">Peliculas</option>
+                    <option value="videojuegos">Videojuegos</option>
+                </select>
+            </div>
+            <div>
+                <label class="linea">Usuario</label><br/>
+                <input class="caja" id="usuario" type="text" name="user" placeholder="Nombre de usuario" onfocus="entraFoco(this)" onblur="saleFoco(this);validarStringInside(this,1,10,obligatorioUsuario);">
+                <p class="obligatorio" id="obligatorioUsuario">Usuario obligatorio</p>
+            </div>
+            <div>
+                <label class="linea">Contraseña</label><br/>
+                <input class="caja" id="contrasena" type="password" name="contrasena" placeholder="Contraseña de usuario" onfocus="entraFoco(this)"  onblur="saleFoco(this);validarContrasenaInside(this,obligatorioContrasena)" onchange="mismaContrasenaInside(this, contrasena2, obligatorioRepCon)">
+                <p class="obligatorio" id="obligatorioContrasena">Introduzca una contraseña entre 8 y 16 caracteres, con al menos 1 mayuscula 1 minuscula y 1 numero</p>
+            </div>
+            <div>
+                <label class="linea">Repetir contraseña</label><br/>
+                <input class="caja" id="contrasena2" type="password" name="contrasena2" placeholder="Repita contraseña" onfocus="entraFoco(this)" onblur="saleFoco(this);mismaContrasenaInside(this, contrasena, obligatorioRepCon)">
+                <p class="obligatorio" id="obligatorioRepCon">Contraseña debe de ser igual</p>
+            </div>
+            <button id="submit" type="submit" value="submit" onmouseover="entraFoco(this);" onmouseout="saleFoco(this);">Enviar</button>
+        </form>
+</div>

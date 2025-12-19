@@ -10,7 +10,6 @@
         .btn-gold { background-color: #d4af37; color: #2b1d0e; font-weight: bold; width: 100%; border: none; }
         .form-control { background: #5d4037; border: 1px solid #8d6e63; color: white; }
 
-        /* ESTILOS DE ERROR */
         .alert-error {
             background-color: #7f1d1d;
             border: 1px solid #ef4444;
