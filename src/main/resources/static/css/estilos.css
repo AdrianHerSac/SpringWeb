@@ -33,3 +33,87 @@ body {
     text-transform: uppercase;
     letter-spacing: 1px;
 }
+
+h1, h2, h3, .navbar-brand, .btn {
+    color: #d4af37;
+    font-family: 'Cinzel', serif;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.hero-section {
+    background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://placehold.co/1200x600/550606/d4af37?text=Guarida+del+Dragon');
+    background-size: cover;
+    background-position: center;
+    border-bottom: 4px solid #d4af37;
+    padding-top: 6rem;
+    padding-bottom: 6rem;
+}
+
+.display-1 {
+    color: #ff4500;
+    text-shadow: 0 0 15px rgba(255, 69, 0, 0.6);
+}
+
+.btn-primary, .btn-gold {
+    background-color: #d4af37;
+    border-color: #b8962e;
+    color: #2c0b0b;
+    font-weight: bold;
+}
+.btn-primary:hover, .btn-gold:hover {
+    background-color: #f3c948;
+    color: #000;
+}
+
+.feature-icon {
+    font-size: 3rem;
+    color: #ff4500;
+    margin-bottom: 1rem;
+    background: #2c0b0b;
+    width: 80px;
+    height: 80px;
+    line-height: 80px;
+    border-radius: 50%;
+    margin: 0 auto 15px auto;
+    border: 2px solid #d4af37;
+}
+
+.login-card {
+    background-color: #3e2723;
+    border: 2px solid #d4af37;
+    padding: 40px;
+    border-radius: 10px;
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+}
+
+.login-card h1 {
+    color: #d4af37;
+}
+
+.btn-gold {
+    background-color: #d4af37;
+    color: #2b1d0e;
+    font-weight: bold;
+    width: 100%;
+    border: none;
+}
+
+.form-control {
+    background: #5d4037;
+    border: 1px solid #8d6e63;
+    color: white;
+}
+
+.alert-error {
+    background-color: #7f1d1d;
+    border: 1px solid #ef4444;
+    color: #fca5a5;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 15px;
+    font-size: 0.9rem;
+}

@@ -1,3 +1,4 @@
+{% include "fragments/head" %}
 {% include "fragments/nav" %}
 
 <div id="body">
@@ -80,6 +81,13 @@
                 <input class="caja" id="contrasena2" type="password" name="contrasena2" placeholder="Repita contraseña" onfocus="entraFoco(this)" onblur="saleFoco(this);mismaContrasenaInside(this, contrasena, obligatorioRepCon)">
                 <p class="obligatorio" id="obligatorioRepCon">Contraseña debe de ser igual</p>
             </div>
-            <button id="submit" type="submit" value="submit" onmouseover="entraFoco(this);" onmouseout="saleFoco(this);">Enviar</button>
+            <button id="submit"
+                    type="submit"
+                    value="submit"
+                    onmouseover="entraFoco(this);"
+                    onmouseout="saleFoco(this);"
+            >Enviar</button>
         </form>
 </div>
+
+{% include "fragments/footer" %}
