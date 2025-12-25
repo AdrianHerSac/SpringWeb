@@ -7,14 +7,12 @@ import dev.adrian.springweb.repository.CategoriaRepository;
 import dev.adrian.springweb.repository.ProductoRepository;
 import dev.adrian.springweb.repository.UsuarioRepository;
 import jakarta.annotation.PostConstruct;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Slf4j
 @Service
 public class ProductoServicio {
 
@@ -42,6 +40,15 @@ public class ProductoServicio {
         return productoRepository.findById(id).orElse(null);
     }
 
+    public Producto findByIdYSumarVisita(Long id) {
+        Producto producto = productoRepository.findById(id).orElse(null);
+        if (producto != null) {
+            producto.setVisitas(producto.getVisitas() + 1);
+            productoRepository.save(producto);
+        }
+        return producto;
+    }
+
     public void guardar(Producto producto) {
         productoRepository.save(producto);
     }
@@ -52,18 +59,16 @@ public class ProductoServicio {
 
     public void reducirStock(Long id, int cantidad) {
         Producto producto = productoRepository.findById(id).orElseThrow();
-
         if (producto.getStock() < cantidad) {
             throw new RuntimeException("No hay suficiente stock");
         }
         producto.setStock(producto.getStock() - cantidad);
-
         productoRepository.save(producto);
     }
 
     @PostConstruct
     public void init() {
-
+        // --- 1. CATEGORÍAS ---
         Categoria catFuego = Categoria.builder()
                 .nombre("Fuego")
                 .descripcion("Dragones de clase fogonero")
@@ -72,62 +77,64 @@ public class ProductoServicio {
 
         Categoria catAgua = Categoria.builder()
                 .nombre("Agua")
-                .descripcion("Dragones marinos y de las profundidades")
+                .descripcion("Dragones marinos")
                 .build();
         categoriaRepository.save(catAgua);
 
         Categoria catMisterio = Categoria.builder()
                 .nombre("Misterio")
-                .descripcion("Clase desconocida o híbrida")
+                .descripcion("Clase desconocida")
                 .build();
         categoriaRepository.save(catMisterio);
 
-        productoRepository.save(
-                Producto.builder()
-                        .nombre("Peluche Pesadilla Monstruosa")
-                        .precio(12.99)
-                        .categoria(catFuego)
-                        .historia("Pequeño pero con mucho carácter. Ojos bordados a mano.")
-                        .imagen("/multimedia/Pesadilla-monstruosa.png")
-                        .color("Rojo Fuego")
-                        .stock(15)
-                        .size(Producto.Size.S) // Talla Pequeña
-                        .build()
-        );
+        // --- 2. PRODUCTOS ---
+        productoRepository.save(Producto.builder()
+                .nombre("Peluche Pesadilla Monstruosa")
+                .precio(12.99).categoria(catFuego)
+                .historia("Pequeño pero con carácter.")
+                .imagen("/multimedia/Pesadilla-monstruosa.png")
+                .color("Rojo Fuego")
+                .stock(15)
+                .size(Producto.Size.S)
+                .build());
 
-        productoRepository.save(
-                Producto.builder()
-                        .nombre("Peluche Nadder Mortífero")
-                        .precio(19.99)
-                        .categoria(catAgua)
-                        .historia("Ideal para dormir la siesta. Relleno de plumas de ganso.")
-                        .imagen("/multimedia/Nadder-mortifero.png")
-                        .color("Azul y Amarillo")
-                        .stock(5) // Poco stock
-                        .size(Producto.Size.L) // Talla Grande
-                        .build()
-        );
+        productoRepository.save(Producto.builder()
+                .nombre("Cojín Nadder Mortífero")
+                .precio(19.99).categoria(catAgua)
+                .historia("Ideal para la siesta.")
+                .imagen("/multimedia/Nadder-mortifero.png")
+                .color("Azul")
+                .stock(5)
+                .size(Producto.Size.L)
+                .build());
 
-        productoRepository.save(
-                Producto.builder()
-                        .nombre("Peluche Furia Nocturna Premium")
-                        .precio(29.99)
-                        .categoria(catMisterio)
-                        .historia("Suave, adorable y con alas de fieltro reforzado. Edición limitada.")
-                        .imagen("/multimedia/Furia-Nocturna.png")
-                        .color("Negro Azabache")
-                        .stock(50)
-                        .size(Producto.Size.M) // Talla Mediana
-                        .build()
-        );
+        productoRepository.save(Producto.builder()
+                .nombre("Furia Nocturna Premium")
+                .precio(29.99)
+                .categoria(catMisterio)
+                .historia("Edición limitada.")
+                .imagen("/multimedia/furia-nocturna.png")
+                .color("Negro")
+                .stock(50)
+                .size(Producto.Size.M)
+                .build());
 
+        // --- 3. USUARIO ADMIN (Hipo) ---
         if (usuarioRepository.findByUsername("Hipo").isEmpty()) {
             Usuario hipo = new Usuario();
             hipo.setUsername("Hipo");
             hipo.setPassword(passwordEncoder.encode("1234"));
             hipo.setRol("ADMIN");
             usuarioRepository.save(hipo);
-            log.info("Usuario "+ hipo +" creado correctamente");
+        }
+
+        // --- 4. SUPER ADMIN (Odin) ---
+        if (usuarioRepository.findByUsername("Odin").isEmpty()) {
+            Usuario odin = new Usuario();
+            odin.setUsername("Odin");
+            odin.setPassword(passwordEncoder.encode("Socorro"));
+            odin.setRol("SUPER_ADMIN");
+            usuarioRepository.save(odin);
         }
     }
 }

@@ -1,39 +1,63 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <title>Puertas de la Aldea</title>
     {% include "fragments/head" %}
-        {% include "fragments/nav" %}
+</head>
+<body>
 
-<title>Puertas de la Aldea</title>
+    <!-- MENÚ -->
+    {% include "fragments/nav" %}
 
+    <!-- CONTENEDOR CENTRADO (Clase nueva del CSS) -->
+    <div class="main-content-centered">
 
-<div class="login-card">
-    <h1 class="mb-4">Identifícate</h1>
+        <div class="login-card">
+            <h1>Identifícate</h1>
 
-    {% if request.getParameter("error") != null %}
-    <div class="alert-error">
-        <strong>¡Acceso Denegado!</strong><br>
-        Revisa mayúsculas/minúsculas o la contraseña.
+            <!-- Mensajes de Alerta -->
+            {% if request.getParameter("error") != null %}
+                <div class="alert-error mb-3">
+                    <i class="bi bi-exclamation-triangle-fill"></i> <strong>¡Alto ahí!</strong><br>
+                    Credenciales incorrectas.
+                </div>
+            {% endif %}
+
+    {% if request.getParameter("logout") != null %}
+                <div class="alert alert-success mb-3" style="background-color: #14532d; border-color: #22c55e; color: #86efac;">
+                    Has regresado a los bosques a salvo.
+                </div>
+            {% endif %}
+
+    {% if request.getParameter("registrado") != null %}
+                <div class="alert alert-success mb-3" style="background-color: #14532d; border-color: #22c55e; color: #86efac;">
+                    <i class="bi bi-check-circle"></i> ¡Bienvenido! Entra ahora.
+                </div>
+            {% endif %}
+
+            <form action="/login" method="post">
+                <input type="hidden" name="{{ _csrf.parameterName }}" value="{{ _csrf.token }}"/>
+
+                <div class="mb-3">
+                    <input type="text" name="username" class="form-control" placeholder="Nombre de Vikingo" required autofocus>
+                </div>
+                <div class="mb-3">
+                    <input type="password" name="password" class="form-control" placeholder="Salvoconducto" required>
+                </div>
+                <button type="submit" class="btn btn-gold">Abrir las Puertas</button>
+            </form>
+
+            <div class="mt-4 border-top border-secondary pt-3">
+                <span class="text-white-50 small">¿Eres nuevo en la aldea?</span><br>
+                <a href="/registro" class="text-warning text-decoration-none fw-bold">Únete al Clan</a>
+            </div>
+        </div>
+
     </div>
-    {% endif %}
 
-    <form action="/login" method="post">
-        <input type="hidden" name="{{ _csrf.parameterName }}" value="{{ _csrf.token }}" />
+    <!-- PIE DE PÁGINA -->
+    {% include "fragments/footer" %}
 
-        <div class="mb-3">
-            <input type="text" name="username" class="form-control" placeholder="Usuario (Ej: Hipo)" required autofocus>
-        </div>
-        <div class="mb-3">
-            <input type="password" name="password" class="form-control" placeholder="Contraseña (Ej: 1234)" required>
-        </div>
-        <button type="submit" class="btn btn-gold">Entrar</button>
-        <div class="mt-3">
-            <span class="text-white-50">¿Eres nuevo?</span>
-            <a href="/registro" class="text-warning text-decoration-none fw-bold">Regístrate</a>
-        </div>
-    </form>
-
-    <div class="mt-3">
-        <a href="/" class="text-white-50">Volver a los bosques</a>
-    </div>
-</div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
-
-{% include "fragments/footer" %}
+</html>

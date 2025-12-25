@@ -203,7 +203,7 @@
 
                 <div class="d-flex gap-2">
                     {% if request.userPrincipal != null %}
-                        <!-- BOTONES PARA EL USUARIO (O JEFE) -->
+                        <!-- BOTONES PARA EL USUARIO -->
                         {% if producto.stock > 0 %}
                         <a href="/productos/compra/ {{ producto.id }}" class="btn btn-primary btn-medieval">
                         <i class="bi bi-basket-fill"></i> Comprar
