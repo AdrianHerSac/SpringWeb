@@ -3,6 +3,7 @@
 
 <div id="body">
     <h1 id="titulo">REGISTRO DE USUARIO</h1>
+    <div class="login-card">
         <form id="formulario" action="javascript:alert(recuperarDatos())" onsubmit="return validarForm()">
             <div>
                 <label>Nombre y apellidos</label><br/>
@@ -88,6 +89,7 @@
                     onmouseout="saleFoco(this);"
             >Enviar</button>
         </form>
+    </div>
 </div>
 
 {% include "fragments/footer" %}

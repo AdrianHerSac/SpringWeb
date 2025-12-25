@@ -41,13 +41,21 @@ h1, h2, h3, .navbar-brand, .btn {
     letter-spacing: 2px;
 }
 
+label {
+    color: #d4af37;
+}
+
+.img-index {
+    width: 100px;
+}
+
 .hero-section {
     background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://placehold.co/1200x600/550606/d4af37?text=Guarida+del+Dragon');
     background-size: cover;
     background-position: center;
     border-bottom: 4px solid #d4af37;
-    padding-top: 6rem;
-    padding-bottom: 6rem;
+    padding-top: 8rem;
+    padding-bottom: 8rem;
 }
 
 .display-1 {
@@ -77,6 +85,8 @@ h1, h2, h3, .navbar-brand, .btn {
     border-radius: 50%;
     margin: 0 auto 15px auto;
     border: 2px solid #d4af37;
+    justify-content: center;
+    justify-items: center;
 }
 
 .login-card {
