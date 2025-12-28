@@ -128,7 +128,16 @@ public class ProductoServicio {
             usuarioRepository.save(hipo);
         }
 
-        // --- 4. SUPER ADMIN (Odin) ---
+        // --- 4. Manager (Estoico) ---
+        if (usuarioRepository.findByUsername("Estoico").isEmpty()) {
+            Usuario odin = new Usuario();
+            odin.setUsername("Odin");
+            odin.setPassword(passwordEncoder.encode("qwerty"));
+            odin.setRol("Manager");
+            usuarioRepository.save(odin);
+        }
+
+        // --- 5. SUPER ADMIN (Odin) ---
         if (usuarioRepository.findByUsername("Odin").isEmpty()) {
             Usuario odin = new Usuario();
             odin.setUsername("Odin");
