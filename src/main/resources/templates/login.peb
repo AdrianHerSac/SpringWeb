@@ -6,7 +6,6 @@
 </head>
 <body>
 
-    <!-- MENÚ -->
     {% include "fragments/nav" %}
 
     <!-- CONTENEDOR CENTRADO (Clase nueva del CSS) -->

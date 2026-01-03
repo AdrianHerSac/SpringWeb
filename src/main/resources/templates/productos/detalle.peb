@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
+    <title>Puertas de la Aldea</title>
+    {% include "fragments/head" %}
+
     <title>{{ producto.nombre }} - Detalles</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -9,126 +11,9 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
     <link rel="stylesheet" href="/css/estilos.css">
     <link rel="stylesheet" href="/css/footer.css">
-
-    <style>
-        h1, h2, h3, .navbar-brand, .btn {
-            font-family: 'Cinzel', serif;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            color: #d4af37;
-        }
-
-        btn-primary, .btn-gold {
-            background-color: #d4af37;
-            border-color: #b8962e;
-            color: #2c0b0b;
-            font-weight: bold;
-        }
-
-        .btn-primary:hover, .btn-gold:hover {
-            background-color: #f3c948;
-            color: #000;
-        }
-
-        .parchment-page {
-            background-color: #f4e4bc;
-            background-image: url("https://www.transparenttextures.com/patterns/aged-paper.png");
-            box-shadow: 0 0 50px rgba(0,0,0,0.8);
-            border-radius: 5px;
-            padding: 50px;
-            max-width: 900px;
-            width: 100%;
-            position: relative;
-            border: 1px solid #d7c496;
-            margin: auto;
-        }
-
-        h1 {
-            font-family: 'Cinzel', serif;
-            color: #2c1e16;
-            font-size: 3rem;
-            border-bottom: 3px double #5d4037;
-            padding-bottom: 10px;
-            margin-bottom: 15px; /* Reducido un poco para el contador */
-        }
-
-        .dragon-portrait-container {
-            text-align: center;
-            padding: 15px;
-            background: #fff;
-            border: 1px solid #ccc;
-            box-shadow: 3px 3px 10px rgba(0,0,0,0.3);
-            transform: rotate(-2deg); /* Un poco torcida para realismo */
-            margin-bottom: 20px;
-        }
-
-        .dragon-img {
-            width: 100%;
-            height: auto;
-            max-height: 400px;
-            object-fit: cover;
-            filter: sepia(20%) contrast(110%);
-        }
-
-        .info-label {
-            color: #8d6e63;
-            font-size: 0.9rem;
-            text-transform: uppercase;
-            font-family: 'Cinzel', serif;
-            margin-bottom: 5px;
-            display: block;
-        }
-
-        .info-value {
-            font-size: 1.4rem;
-            margin-bottom: 20px;
-            border-left: 4px solid #d4af37;
-            padding-left: 15px;
-        }
-
-        .price-tag {
-            color: #b71c1c; /* Rojo sangre */
-            font-size: 2rem;
-            font-weight: bold;
-        }
-
-        .badge-category {
-            background-color: #5d4037;
-            color: #d4af37;
-            padding: 5px 15px;
-            border-radius: 20px;
-            font-size: 1rem;
-            font-family: 'Cinzel', serif;
-        }
-
-        .actions-bar {
-            margin-top: 40px;
-            border-top: 1px dashed #8d6e63;
-            padding-top: 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-
-        .btn-medieval {
-            font-family: 'Cinzel', serif;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .stats-card {
-            background-color: #3e2723; /* Marrón oscuro */
-            color: #f4e4bc; /* Color pergamino claro */
-            border: 2px solid #d4af37; /* Borde dorado */
-            border-radius: 8px;
-            padding: 15px;
-            margin-bottom: 20px;
-        }
-    </style>
 </head>
 <body>
+
 {% include "fragments/nav" %}
 
 <div class="parchment-page">
@@ -145,7 +30,7 @@
 
         <!-- COLUMNA DERECHA: DATOS -->
         <div class="col-md-7">
-            <h1>{{ producto.nombre }}</h1>
+            <h4>{{ producto.nombre }}</h1>
 
             <!-- CONTADOR DE VISITAS -->
             <div class="mb-3 text-muted" style="font-family: 'Cinzel', serif; font-size: 0.9rem;">
@@ -209,9 +94,7 @@
                         <i class="bi bi-basket-fill"></i> Comprar
                     </a>
                     {% else %}
-                    <button class="btn btn-secondary btn-medieval" disabled>
-                        Sin Stock
-                    </button>
+                    <button class="btn btn-secondary btn-medieval" disabled> Sin Stock </button>
                     {% endif %}
 
                     <!-- BOTONES DE GESTIÓN (SOLO SI ESTÁ LOGUEADO) -->

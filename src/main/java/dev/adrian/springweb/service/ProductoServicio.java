@@ -1,11 +1,7 @@
 package dev.adrian.springweb.service;
 
-import dev.adrian.springweb.model.Categoria;
-import dev.adrian.springweb.model.Producto;
-import dev.adrian.springweb.model.Usuario;
-import dev.adrian.springweb.repository.CategoriaRepository;
-import dev.adrian.springweb.repository.ProductoRepository;
-import dev.adrian.springweb.repository.UsuarioRepository;
+import dev.adrian.springweb.model.*;
+import dev.adrian.springweb.repository.*;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -68,7 +64,6 @@ public class ProductoServicio {
 
     @PostConstruct
     public void init() {
-        // --- 1. CATEGORÍAS ---
         Categoria catFuego = Categoria.builder()
                 .nombre("Fuego")
                 .descripcion("Dragones de clase fogonero")
@@ -87,7 +82,6 @@ public class ProductoServicio {
                 .build();
         categoriaRepository.save(catMisterio);
 
-        // --- 2. PRODUCTOS ---
         productoRepository.save(Producto.builder()
                 .nombre("Peluche Pesadilla Monstruosa")
                 .precio(12.99).categoria(catFuego)
@@ -119,7 +113,6 @@ public class ProductoServicio {
                 .size(Producto.Size.M)
                 .build());
 
-        // --- 3. USUARIO ADMIN (Hipo) ---
         if (usuarioRepository.findByUsername("Hipo").isEmpty()) {
             Usuario hipo = new Usuario();
             hipo.setUsername("Hipo");
@@ -128,7 +121,6 @@ public class ProductoServicio {
             usuarioRepository.save(hipo);
         }
 
-        // --- 4. Manager (Estoico) ---
         if (usuarioRepository.findByUsername("Estoico").isEmpty()) {
             Usuario odin = new Usuario();
             odin.setUsername("Odin");
@@ -137,7 +129,6 @@ public class ProductoServicio {
             usuarioRepository.save(odin);
         }
 
-        // --- 5. SUPER ADMIN (Odin) ---
         if (usuarioRepository.findByUsername("Odin").isEmpty()) {
             Usuario odin = new Usuario();
             odin.setUsername("Odin");
